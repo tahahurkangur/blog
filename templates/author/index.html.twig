@@ -1,0 +1,38 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <nav class="navbar navbar-default navbar-static-top">
+        <div id="navbar" class="collapse navbar-collapse pull-right">
+            <ul class="nav navbar-nav">
+                {% if is_granted('ROLE_AUTHOR') %}
+                    <li><a href="{{ path('homepage') }}">Anasayfa</a></li>
+                    <li><a href="{{ path('content_add') }}">İçerik Ekle</a></li>
+                    <li><a href="{{ logout_url(key = null) }}">Çıkış Yap</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    {% if contents %}
+        <div class="col-md-12">
+            <div class="panel panel-inverse">
+                <div class="panel-heading">
+                    <h4 class="panel-title">İçerikler</h4>
+                    <hr>
+                </div>
+                {% for content in contents %}
+                    <div class="panel-body">
+                        <div class="blog-header">{{ content.title }}</div>
+                        <div class="blog-description">{{ content.description }}</div>
+                        <div class="blog-description">{{ content.body }}</div>
+                        <ul>
+                            <li><a href="{{ path('content_delete',{'id': content.id}) }}">Sil</a></li>
+                            <li><a href="{{ path('content_edit',{'id': content.id}) }}">Düzenle</a></li>
+                        </ul>
+                    </div>
+                    <hr>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <h1><a href="{{ path('content_add') }}">İçerik Ekle!</a></h1>
+    {% endif %}
+{% endblock %}

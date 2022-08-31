@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <nav class="navbar navbar-default navbar-static-top">
+        <div id="navbar" class="collapse navbar-collapse pull-right">
+            <ul class="nav navbar-nav">
+                {% if app.user %}
+                    {% if is_granted('ROLE_AUTHOR') %}
+                        <li><a href="{{ path("author_page",{'id': app.user.id}) }}">Admin</a></li>
+                        <li><a href="{{ logout_url(key = null) }}">Çıkış Yap</a></li>
+                    {% else %}
+                        <li><a href="{{ path("author_create") }}">Yazar Ol</a></li>
+                        <li><a href="{{ logout_url(key = null) }}">Çıkış Yap</a></li>
+                    {% endif %}
+                {% else %}
+                    <li><a href="{{ path('app_register') }}">Üye Ol</a></li>
+                    <li><a href="{{ path('app_login') }}">Giriş Yap</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <div class="col-md-12">
+        <div class="panel panel-inverse">
+            <div class="panel-heading">
+                <h4 class="panel-title">İçerikler</h4>
+                <hr>
+            </div>
+            {% for content in contents %}
+                <div class="panel-body">
+                    <div class="blog-header">{{ content.title }}</div>
+                    <div class="blog-description">{{ content.description }}</div>
+                    <div class="blog-description">{{ content.body }}</div>
+                </div>
+                <hr>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+
